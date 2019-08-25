@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MyNewBook</string>
+    <string name="most_rated">Most Rated</string>
+    <string name="new_added">New Added</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="book_name">Book Name</string>
+    <string name="novelist">Novelist</string>
+    <string name="comment">Comment</string>
+    <string name="save">Save</string>
+
+
+</resources>

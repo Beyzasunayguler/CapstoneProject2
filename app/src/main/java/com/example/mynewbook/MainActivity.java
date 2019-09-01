@@ -14,16 +14,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
+    ListView listView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listView = findViewById(R.id.listView);
+
 
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -69,7 +73,17 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View bookView = inflater.inflate(R.layout.fragment_added, container, false);
             return bookView;
+           /* if (getArguments() != null) {
+                if (getArguments().getInt(ARG_SECTION_NUMBER) == 0) {
 
+                } if (getArguments().getInt(ARG_SECTION_NUMBER) == 1){
+
+                } else{
+
+                }
+            }
+
+*/
 
         }
     }

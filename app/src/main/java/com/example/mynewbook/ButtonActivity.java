@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
@@ -20,6 +21,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.mynewbook.Database.AppDatabase;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ButtonActivity extends AppCompatActivity {
@@ -29,8 +33,12 @@ public class ButtonActivity extends AppCompatActivity {
     EditText novelistText;
     EditText commentText;
     Button saveButton;
+    String book;
+    String comment;
+    String novelist;
     SQLiteDatabase database;
     Bitmap selectedImage;
+    AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,23 @@ public class ButtonActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
+        novelist=novelistText.getText().toString();
+        comment=commentText.getText().toString();
+        book=bookNameText.getText().toString();
+        ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
+        selectedImage.compress(Bitmap.CompressFormat.PNG,50,outputStream);
+        byte[] byteArray= outputStream.toByteArray();
+        database=this.openOrCreateDatabase("Data",MODE_PRIVATE,null);
+        database.execSQL("CREATE TABLE IF NOT EXISTS data (novelist VARCHAR,comment VARCHAR,book VARCHAR,image BLOB)");
+        String sqlString= "INSERT INTO data (novelist,comment,book,image) VALUES (?,?,?,?)";
+        SQLiteStatement sqLiteStatement=database.compileStatement(sqlString);
+        sqLiteStatement.bindString(1,book);
+        sqLiteStatement.bindString(2,novelist);
+        sqLiteStatement.bindString(3,comment);
+        sqLiteStatement.bindBlob(4,byteArray);
+        sqLiteStatement.execute();
+
+        finish();
 
     }
 

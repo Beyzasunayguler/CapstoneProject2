@@ -24,11 +24,11 @@ public class Book implements Parcelable {
         bookComment = in.readString();
     }
 
-    public Book(int mId, String mBookName, String mBookNovelist, String mBookComment) {
-        this.id = mId;
-        this.bookName =mBookName;
-        this.bookComment=mBookComment;
-        this.bookNovelist=mBookNovelist;
+    public Book (int id, String bookName, String bookComment, String bookNovelist) {
+        this.id = id;
+        this.bookName =bookName;
+        this.bookComment=bookComment;
+        this.bookNovelist=bookNovelist;
     }
 
     public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {

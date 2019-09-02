@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface BookDao {
-    @Query("SELECT * FROM Movie ORDER BY id")
+    @Query("SELECT * FROM book_table ORDER BY id")
     List<Book> loadAllBook();
 
 

@@ -1,6 +1,7 @@
 package com.example.mynewbook;
 
 import android.Manifest;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,9 +23,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.mynewbook.Database.AppDatabase;
+import com.example.mynewbook.Database.Book;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class ButtonActivity extends AppCompatActivity {
 
@@ -36,9 +39,8 @@ public class ButtonActivity extends AppCompatActivity {
     String book;
     String comment;
     String novelist;
-    SQLiteDatabase database;
     Bitmap selectedImage;
-    AppDatabase appDatabase;
+    AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class ButtonActivity extends AppCompatActivity {
         commentText = findViewById(R.id.commentEditText);
         saveButton = findViewById(R.id.saveButton);
 
+
+
     }
 
     public void save(View view) {
@@ -59,8 +63,11 @@ public class ButtonActivity extends AppCompatActivity {
         book=bookNameText.getText().toString();
         ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
         selectedImage.compress(Bitmap.CompressFormat.PNG,50,outputStream);
-        byte[] byteArray= outputStream.toByteArray();
-        database=this.openOrCreateDatabase("Data",MODE_PRIVATE,null);
+        //byte[] byteArray= outputStream.toByteArray();
+        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
+                .allowMainThreadQueries()
+                .build();
+       /* database=this.openOrCreateDatabase("Data",MODE_PRIVATE,null);
         database.execSQL("CREATE TABLE IF NOT EXISTS data (novelist VARCHAR,comment VARCHAR,book VARCHAR,image BLOB)");
         String sqlString= "INSERT INTO data (novelist,comment,book,image) VALUES (?,?,?,?)";
         SQLiteStatement sqLiteStatement=database.compileStatement(sqlString);
@@ -71,6 +78,8 @@ public class ButtonActivity extends AppCompatActivity {
         sqLiteStatement.execute();
 
         finish();
+
+        */
 
     }
 

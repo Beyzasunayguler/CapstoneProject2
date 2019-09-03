@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,19 +72,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            //View bookView;
             View bookView = inflater.inflate(R.layout.fragment_added, container, false);
-            return bookView;
-           /* if (getArguments() != null) {
+
+            if (getArguments() != null) {
                 if (getArguments().getInt(ARG_SECTION_NUMBER) == 0) {
+                    bookView = inflater.inflate(R.layout.fragment_added, container, false);
 
                 } if (getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-
+                    bookView = inflater.inflate(R.layout.fragment_most_rated, container, false);
                 } else{
+                    bookView = inflater.inflate(R.layout.fragment_favorites, container, false);
 
                 }
             }
-
-*/
+            return bookView;
 
         }
     }

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
-    AppDatabase database;
+AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

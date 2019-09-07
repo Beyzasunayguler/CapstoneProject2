@@ -24,8 +24,7 @@ public class Book implements Parcelable {
         bookComment = in.readString();
     }
 
-    public Book(int id, String bookName, String bookComment, String bookNovelist) {
-        this.id = id;
+    public Book(String bookName, String bookComment, String bookNovelist) {
         this.bookName = bookName;
         this.bookComment = bookComment;
         this.bookNovelist = bookNovelist;

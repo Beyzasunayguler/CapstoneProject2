@@ -46,7 +46,6 @@ public class ButtonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_button);
-        Intent intent = getIntent();
         selectImageView = findViewById(R.id.selectImageView);
         bookNameText = findViewById(R.id.bookNameEditText);
         novelistText = findViewById(R.id.novelistEditText);
@@ -54,33 +53,27 @@ public class ButtonActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
 
 
-
     }
 
     public void save(View view) {
-        novelist=novelistText.getText().toString();
-        comment=commentText.getText().toString();
-        book=bookNameText.getText().toString();
-        ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
-        selectedImage.compress(Bitmap.CompressFormat.PNG,50,outputStream);
+        novelist = novelistText.getText().toString();
+        comment = commentText.getText().toString();
+        book = bookNameText.getText().toString();
+        //ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
+        //selectedImage.compress(Bitmap.CompressFormat.PNG,50,outputStream);
         //byte[] byteArray= outputStream.toByteArray();
-        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
+        database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
-       /* database=this.openOrCreateDatabase("Data",MODE_PRIVATE,null);
-        database.execSQL("CREATE TABLE IF NOT EXISTS data (novelist VARCHAR,comment VARCHAR,book VARCHAR,image BLOB)");
-        String sqlString= "INSERT INTO data (novelist,comment,book,image) VALUES (?,?,?,?)";
-        SQLiteStatement sqLiteStatement=database.compileStatement(sqlString);
-        sqLiteStatement.bindString(1,book);
-        sqLiteStatement.bindString(2,novelist);
-        sqLiteStatement.bindString(3,comment);
-        sqLiteStatement.bindBlob(4,byteArray);
-        sqLiteStatement.execute();
 
+        database.getBookDao().insertBook(
+            new Book(
+                book,
+                comment,
+                novelist
+            )
+        );
         finish();
-
-        */
-
     }
 
     public void selectImage(View view) {
@@ -88,7 +81,7 @@ public class ButtonActivity extends AppCompatActivity {
         //kullanıcı iznini kontrol etmek için
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
 
         } else {
             Intent imageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -130,8 +123,8 @@ public class ButtonActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode==2){
-            if (grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 2) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent imageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(imageIntent, 1);
             }

@@ -1,5 +1,6 @@
 package com.example.mynewbook;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,19 +17,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.mynewbook.Database.AppDatabase;
+import com.example.mynewbook.Database.Book;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
     ListView listView;
-
+    AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listView);
-
+        database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
+                .allowMainThreadQueries()
+                .build();
 
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -44,10 +53,19 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,ButtonActivity.class);
                 startActivity(intent);
 
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final List<Book> books = database.getBookDao().loadAllBook();
+
+        if (!books.isEmpty()) {
+            Toast.makeText(this, books.get(books.size() - 1).bookName, Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -73,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             //View bookView;
-            View bookView = inflater.inflate(R.layout.fragment_added, container, false);
+            View bookView = null;
 
             if (getArguments() != null) {
                 if (getArguments().getInt(ARG_SECTION_NUMBER) == 0) {
                     bookView = inflater.inflate(R.layout.fragment_added, container, false);
 
-                } if (getArguments().getInt(ARG_SECTION_NUMBER) == 1){
+                } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                     bookView = inflater.inflate(R.layout.fragment_most_rated, container, false);
                 } else{
                     bookView = inflater.inflate(R.layout.fragment_favorites, container, false);

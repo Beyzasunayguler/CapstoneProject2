@@ -1,76 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailActivity">
+    android:orientation="horizontal"
+    android:weightSum="100">
 
-    <EditText
-        android:id="@+id/bookNameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/selectImageView"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:ems="10"
-        android:hint="@string/book_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/selectImageView"
-        app:layout_constraintTop_toBottomOf="@+id/selectImageView"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="343dp" />
-    " />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/novelistEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bookNameEditText"
-        android:layout_marginTop="25dp"
-        android:ems="10"
-        android:hint="@string/novelist"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/bookNameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/bookNameEditText"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="413dp" />
+        <TextView
+            android:id="@+id/bookNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectImageView"
+            android:layout_marginTop="76dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="@string/book_name"
+            app:layout_constraintEnd_toEndOf="@+id/selectImageView"
+            app:layout_constraintTop_toBottomOf="@+id/selectImageView" />
 
-    <EditText
-        android:id="@+id/commentEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/novelistEditText"
-        android:layout_marginTop="27dp"
-        android:ems="10"
-        android:hint="@string/comment"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/novelistEditText"
-        app:layout_constraintTop_toBottomOf="@+id/novelistEditText"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="485dp" />
-    " />
+        <TextView
+            android:id="@+id/novelistText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bookNameText"
+            android:layout_marginTop="25dp"
+            android:ems="10"
+            android:hint="@string/novelist"
+            app:layout_constraintStart_toStartOf="@+id/bookNameText"
+            app:layout_constraintTop_toBottomOf="@+id/bookNameText" />
 
-    <ImageView
-        android:id="@+id/selectImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="54dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/selectimage"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="54dp" />
+        <TextView
+            android:id="@+id/commentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/novelistText"
+            android:layout_marginTop="27dp"
+            android:ems="10"
+            android:hint="@string/comment"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/novelistText"
+            app:layout_constraintTop_toBottomOf="@+id/novelistText" />
+        <ImageView
+            android:id="@+id/selectImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="54dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/selectimage" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/favorite_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@drawable/heart"
-        tools:layout_editor_absoluteX="339dp"
-        tools:layout_editor_absoluteY="659dp" />
+        <RatingBar
+            android:id="@+id/ratingBar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectImageView" />
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/heart" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>

@@ -2,33 +2,36 @@ package com.example.mynewbook;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
+import com.example.mynewbook.Fragment.FragmentAdded;
+import com.example.mynewbook.Fragment.FragmentFavorites;
+import com.example.mynewbook.Fragment.FragmentMostRated;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SectionsPagerAdapter sectionsPagerAdapter;
+    //  private SectionsPagerAdapter sectionsPagerAdapter;
     ListView listView;
     AppDatabase database;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +41,15 @@ public class MainActivity extends AppCompatActivity {
         database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -57,6 +63,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FragmentAdded(), "NEW ADDED");
+        adapter.addFragment(new FragmentMostRated(), "MOST RATED");
+        adapter.addFragment(new FragmentFavorites(), "FAVORITES");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -68,78 +111,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public static class PlaceholderFragment extends Fragment {
-
-
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-
-        public PlaceholderFragment() {
-        }
-
-
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            //View bookView;
-            View bookView = null;
-
-            if (getArguments() != null) {
-                if (getArguments().getInt(ARG_SECTION_NUMBER) == 0) {
-                    bookView = inflater.inflate(R.layout.fragment_added, container, false);
-
-                } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                    bookView = inflater.inflate(R.layout.fragment_most_rated, container, false);
-                } else{
-                    bookView = inflater.inflate(R.layout.fragment_favorites, container, false);
-
-                }
-            }
-            return bookView;
-
-        }
-    }
-
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return PlaceholderFragment.newInstance(position);
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            String title;
-
-            if (position == 0) {
-                title = "New Added";
-            } else if (position == 1) {
-                title = "Most Rated";
-            } else {
-                title = "My Favorites";
-            }
-            return title;
-        }
-
-        @Override
-        public int getCount() {
-
-            return 3;
-        }
-    }
 }

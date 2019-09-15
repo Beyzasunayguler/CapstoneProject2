@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,ButtonActivity.class);
+                Intent intent = new Intent(MainActivity.this, ButtonActivity.class);
                 startActivity(intent);
 
             }
@@ -100,15 +100,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        final List<Book> books = database.getBookDao().loadAllBook();
-
-        if (!books.isEmpty()) {
-            Toast.makeText(this, books.get(books.size() - 1).bookName, Toast.LENGTH_SHORT).show();
-        }
-    }
 
 }

@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mynewbook.Database.AppDatabase;
@@ -19,6 +22,9 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity {
 
     AppDatabase database;
+    private TextView bookNovelistText;
+    private TextView bookCommentText;
+    private TextView bookNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,26 @@ public class DetailActivity extends AppCompatActivity {
         database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
+        bookNovelistText=(TextView) findViewById(R.id.novelistText);
+        bookCommentText=(TextView) findViewById(R.id.commentText);
+        bookNameText=(TextView) findViewById(R.id.bookNameText);
+        RatingBar mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        Button mSaveVoteButton = (Button) findViewById(R.id.saveVoteButton);
+        mSaveVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              /*  if (mFeedback.getText().toString().isEmpty()) {
+                    Toast.makeText(DetailActivity.this, "Please fill in feedback text box", Toast.LENGTH_LONG).show();
+                } else {
+                    mRatingBar.setRating(0);
+                    Toast.makeText(DetailActivity.this, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();
+                }
+
+               */
+            }
+        });
+
+
         FloatingActionButton favoriteButton = (FloatingActionButton) findViewById(R.id.favorite_button);
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +83,24 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+
+
+        if (getIntent().getExtras() == null) {
+            Toast.makeText(this, "Something went wrong, check the logs", Toast.LENGTH_LONG).show();
+        }else{
+            final String bookName = getIntent().getExtras().getString(IntentConstants.BOOK_NAME_KEY);
+            final String bookComment = getIntent().getExtras().getString(IntentConstants.BOOK_COMMENT_KEY);
+            final String bookNovelist = getIntent().getExtras().getString(IntentConstants.BOOK_NOVELIST_KEY);
+            final String imagePath = getIntent().getExtras().getString(IntentConstants.BOOK_IMAGE);
+            bookNameText.setText(bookName);
+            bookCommentText.setText(bookComment);
+            bookNovelistText.setText(bookNovelist);
+
+
+
+        }
+
+
 
 
     }

@@ -1,26 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:weightSum="100">
-
+    
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/saveVoteButton"
+            android:layout_width="87dp"
+            android:layout_height="41dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="89dp"
+            android:background="#FF4081"
+            android:text="@string/save_my_vote"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bookNameText"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+        <ImageView
+            android:id="@+id/selectImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="54dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/selectimage" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="310dp"
+            android:layout_marginEnd="14dp"
+            android:numStars="5"
+            android:stepSize="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/saveVoteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/bookNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/selectImageView"
+            android:layout_marginStart="147dp"
             android:layout_marginTop="76dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="@string/book_name"
             app:layout_constraintEnd_toEndOf="@+id/selectImageView"
+            app:layout_constraintEnd_toStartOf="@+id/saveVoteButton"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectImageView" />
 
         <TextView
@@ -42,27 +79,8 @@
             android:layout_marginTop="27dp"
             android:ems="10"
             android:hint="@string/comment"
-            android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/novelistText"
             app:layout_constraintTop_toBottomOf="@+id/novelistText" />
-        <ImageView
-            android:id="@+id/selectImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/selectimage" />
-
-        <RatingBar
-            android:id="@+id/ratingBar2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectImageView" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/favorite_button"

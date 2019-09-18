@@ -10,24 +10,28 @@ import android.os.Parcelable;
 public class Book implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    @ColumnInfo(name = "movie_title")
+    @ColumnInfo(name = "book_name")
     public String bookName;
-    @ColumnInfo(name = "release_date")
+    @ColumnInfo(name = "book_novelist")
     public String bookNovelist;
-    @ColumnInfo(name = "poster_path")
+    @ColumnInfo(name = "book_comment")
     public String bookComment;
+    @ColumnInfo(name = "book_image")
+    public String bookImage;
 
     protected Book(Parcel in) {
         id = in.readInt();
         bookName = in.readString();
         bookNovelist = in.readString();
         bookComment = in.readString();
+        bookImage = in.readString();
     }
 
-    public Book(String bookName, String bookComment, String bookNovelist) {
+    public Book(String bookName, String bookComment, String bookNovelist, String bookImage) {
         this.bookName = bookName;
         this.bookComment = bookComment;
         this.bookNovelist = bookNovelist;
+        this.bookImage = bookImage;
     }
 
     public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
@@ -42,12 +46,21 @@ public class Book implements Parcelable {
         }
     };
 
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getBookImage() {
+        return bookImage;
+    }
+
+    public void setBookImage(String bookImage) {
+        this.bookImage = bookImage;
     }
 
     public String getBookName() {
@@ -85,6 +98,7 @@ public class Book implements Parcelable {
         parcel.writeString(bookComment);
         parcel.writeString(bookName);
         parcel.writeString(bookNovelist);
+        parcel.writeString(bookImage);
 
     }
 }

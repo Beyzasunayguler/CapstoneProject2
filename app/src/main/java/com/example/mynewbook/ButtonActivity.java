@@ -39,6 +39,7 @@ public class ButtonActivity extends AppCompatActivity {
     String book;
     String comment;
     String novelist;
+    String bookImage;
     Bitmap selectedImage;
     AppDatabase database;
 
@@ -67,11 +68,7 @@ public class ButtonActivity extends AppCompatActivity {
                 .build();
 
         database.getBookDao().insertBook(
-            new Book(
-                book,
-                comment,
-                novelist
-            )
+            new Book(book, comment, novelist,bookImage)
         );
         finish();
     }

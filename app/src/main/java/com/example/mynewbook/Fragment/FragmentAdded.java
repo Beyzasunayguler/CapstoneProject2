@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.mynewbook.BookAdapter;
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
-import com.example.mynewbook.MainActivity;
 import com.example.mynewbook.R;
 
 import java.util.List;

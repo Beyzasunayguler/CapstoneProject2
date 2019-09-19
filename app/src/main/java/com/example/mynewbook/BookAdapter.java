@@ -54,7 +54,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
                     shareIntent.putExtra(IntentConstants.BOOK_NAME_KEY, book.bookName);
                     shareIntent.putExtra(IntentConstants.BOOK_COMMENT_KEY, book.bookComment);
                     shareIntent.putExtra(IntentConstants.BOOK_NOVELIST_KEY, book.bookNovelist);
-                   // shareIntent.putExtra(IntentConstants.BOOK_IMAGE, book);
+                    shareIntent.putExtra(IntentConstants.BOOK_ID_KEY,book.id);
+                    shareIntent.putExtra(IntentConstants.BOOK_IMAGE,book.bookImage);
                     itemView.getContext().startActivity(shareIntent);
 
                 }

@@ -40,6 +40,7 @@ public class ButtonActivity extends AppCompatActivity {
     String comment;
     String novelist;
     String bookImage;
+    int id;
     Bitmap selectedImage;
     AppDatabase database;
 
@@ -60,15 +61,12 @@ public class ButtonActivity extends AppCompatActivity {
         novelist = novelistText.getText().toString();
         comment = commentText.getText().toString();
         book = bookNameText.getText().toString();
-        //ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
-        //selectedImage.compress(Bitmap.CompressFormat.PNG,50,outputStream);
-        //byte[] byteArray= outputStream.toByteArray();
         database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
 
         database.getBookDao().insertBook(
-            new Book(book, comment, novelist,bookImage)
+            new Book(book, comment, novelist,bookImage,id)
         );
         finish();
     }

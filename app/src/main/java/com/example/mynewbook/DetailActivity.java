@@ -34,9 +34,9 @@ public class DetailActivity extends AppCompatActivity {
         database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
-        bookNovelistText=(TextView) findViewById(R.id.novelistText);
-        bookCommentText=(TextView) findViewById(R.id.commentText);
-        bookNameText=(TextView) findViewById(R.id.bookNameText);
+        bookNovelistText = (TextView) findViewById(R.id.novelistText);
+        bookCommentText = (TextView) findViewById(R.id.commentText);
+        bookNameText = (TextView) findViewById(R.id.bookNameText);
         RatingBar mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
         Button mSaveVoteButton = (Button) findViewById(R.id.saveVoteButton);
         mSaveVoteButton.setOnClickListener(new View.OnClickListener() {
@@ -58,28 +58,29 @@ public class DetailActivity extends AppCompatActivity {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*
-              final String bookName = getIntent().getExtras().getString(IntentConstants.BOOK_NAME_KEY);
-               final String bookComment = getIntent().getExtras().getString(IntentConstants.BOOK_COMMENT_KEY);
-                final String bookNovelist = getIntent().getExtras().getString(IntentConstants.BOOK_NOVELIST_KEY);
-                final String imagePath = getIntent().getExtras().getString(IntentConstants.BOOK_IMAGE);
-               // Book currentBook =  new Book()
 
-                   boolean isFavorıted = false;
-                    for(Book temp: books) {
-                        if (temp.id == id) {
-                            isFavorıted = true;
-                            break;
-                        }
+                final String bookName = getIntent().getExtras().getString(IntentConstants.BOOK_NAME_KEY);
+                final String bookComment = getIntent().getExtras().getString(IntentConstants.BOOK_COMMENT_KEY);
+                final String bookNovelist = getIntent().getExtras().getString(IntentConstants.BOOK_NOVELIST_KEY);
+                final String bookImage = getIntent().getExtras().getString(IntentConstants.BOOK_IMAGE);
+                int id=getIntent().getExtras().getInt(IntentConstants.BOOK_ID_KEY);
+                Book currentBook= new Book(bookName,bookComment,bookNovelist,bookImage,id);
+                final List<Book> book= database.getBookDao().loadAllBook();
+                boolean isFavorıted = false;
+                for (Book temp : book) {
+                    if (temp.id == id) {
+                        isFavorıted = true;
+                        break;
                     }
+                }
                 if (isFavorıted) {
-                    database.getBookDao().deleteBook(books);
+                    database.getBookDao().deleteBook(currentBook);
                     Toast.makeText(DetailActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
                 } else {
-                    database.getBookDao().insertBook(books);
+                    database.getBookDao().insertBook(currentBook);
                     Toast.makeText(DetailActivity.this, "Added!", Toast.LENGTH_SHORT).show();
                 }
-               */
+
 
             }
         });
@@ -87,7 +88,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (getIntent().getExtras() == null) {
             Toast.makeText(this, "Something went wrong, check the logs", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             final String bookName = getIntent().getExtras().getString(IntentConstants.BOOK_NAME_KEY);
             final String bookComment = getIntent().getExtras().getString(IntentConstants.BOOK_COMMENT_KEY);
             final String bookNovelist = getIntent().getExtras().getString(IntentConstants.BOOK_NOVELIST_KEY);
@@ -97,10 +98,7 @@ public class DetailActivity extends AppCompatActivity {
             bookNovelistText.setText(bookNovelist);
 
 
-
         }
-
-
 
 
     }

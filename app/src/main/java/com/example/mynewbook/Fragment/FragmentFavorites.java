@@ -13,13 +13,14 @@ import android.widget.ProgressBar;
 
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
-import com.example.mynewbook.MainActivity;
+import com.example.mynewbook.FavoriteAdapter;
 import com.example.mynewbook.R;
 
 import java.util.List;
 
 public class FragmentFavorites extends Fragment {
     AppDatabase database;
+    FavoriteAdapter favoriteAdapter;
     private ProgressBar loadingBar;
     private RecyclerView mRecyclerView;
 
@@ -30,13 +31,16 @@ public class FragmentFavorites extends Fragment {
         mRecyclerView = (RecyclerView) favoritesView.findViewById(R.id.myRecyclerView);
         mRecyclerView.setHasFixedSize(true);
         loadingBar = (ProgressBar) favoritesView.findViewById(R.id.loadingBar);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager((MainActivity) getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        favoriteAdapter = new FavoriteAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setAdapter(favoriteAdapter);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         database = Room.databaseBuilder(getContext(), AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
         final List<Book> books = database.getBookDao().loadAllBook();
-
+        favoriteAdapter.setBookData(books);
+        loadingBar.setVisibility(View.GONE);
 
         return favoritesView;
 
@@ -48,7 +52,7 @@ public class FragmentFavorites extends Fragment {
         final List<Book> books = database.getBookDao().loadAllBook();
 
         if (!books.isEmpty()) {
-            //Toast.makeText(this, books.get(books.size() - 1).bookName, Toast.LENGTH_SHORT).show();
+            mRecyclerView.setAdapter(favoriteAdapter);
         }
     }
 }

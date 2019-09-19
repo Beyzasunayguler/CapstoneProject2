@@ -25,13 +25,14 @@
 
         <ImageView
             android:id="@+id/selectImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_width="230dp"
+            android:layout_height="223dp"
+            android:layout_marginTop="72dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/selectimage" />
+            app:srcCompat="@color/colorPrimaryDark" />
 
         <RatingBar
             android:id="@+id/ratingBar"

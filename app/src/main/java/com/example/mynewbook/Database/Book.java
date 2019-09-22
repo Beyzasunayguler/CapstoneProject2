@@ -18,6 +18,11 @@ public class Book implements Parcelable {
     public String bookComment;
     @ColumnInfo(name = "book_image")
     public String bookImage;
+    @ColumnInfo(name = "book_favorited")
+    public boolean isBookFavorited;
+    @ColumnInfo(name = "book_rated")
+    public float bookRating;
+
 
     protected Book(Parcel in) {
         id = in.readInt();
@@ -25,14 +30,18 @@ public class Book implements Parcelable {
         bookNovelist = in.readString();
         bookComment = in.readString();
         bookImage = in.readString();
+        isBookFavorited = in.readInt() != 0;
+        bookRating =in.readFloat();
     }
 
-    public Book(String bookName, String bookComment, String bookNovelist, String bookImage,int id) {
+    public Book(String bookName, String bookComment, String bookNovelist, String bookImage,int id, boolean isBookFavorited, float bookRating) {
         this.bookName = bookName;
         this.bookComment = bookComment;
         this.bookNovelist = bookNovelist;
         this.bookImage = bookImage;
         this.id=id;
+        this.isBookFavorited = isBookFavorited;
+        this.bookRating = bookRating;
     }
 
     public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
@@ -88,10 +97,26 @@ public class Book implements Parcelable {
         this.bookComment = bookComment;
     }
 
+    public boolean isBookFavorited() {
+        return isBookFavorited;
+    }
+
+    public void setBookFavorited(boolean bookFavorited) {
+        isBookFavorited = bookFavorited;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
+    public float bookRating() {
+        return bookRating ;
+    }
+
+    public void setBookRated(float bookRated) {
+        bookRating  = bookRated;
+    }
+
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
@@ -100,6 +125,7 @@ public class Book implements Parcelable {
         parcel.writeString(bookName);
         parcel.writeString(bookNovelist);
         parcel.writeString(bookImage);
-
+        parcel.writeInt(isBookFavorited ? 1 : 0);
+        parcel.writeFloat(bookRating);
     }
 }

@@ -51,7 +51,7 @@ public class FragmentAdded extends Fragment {
         final List<Book> books = database.getBookDao().loadAllBook();
 
         if (!books.isEmpty()) {
-            mRecyclerView.setAdapter(bookAdapter);
+            bookAdapter.setBookData(books);
         }
     }
 

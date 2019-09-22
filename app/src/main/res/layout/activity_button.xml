@@ -14,12 +14,12 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_marginBottom="38dp"
         android:onClick="save"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteX="296dp"
         tools:layout_editor_absoluteY="645dp" />
-    " />
+
     <EditText
         android:id="@+id/novelistEditText"
         android:layout_width="wrap_content"
@@ -33,6 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bookNameEditText"
         tools:layout_editor_absoluteX="99dp"
         tools:layout_editor_absoluteY="413dp" />
+    />
 
     <EditText
         android:id="@+id/commentEditText"
@@ -47,7 +48,6 @@
         app:layout_constraintTop_toBottomOf="@+id/novelistEditText"
         tools:layout_editor_absoluteX="99dp"
         tools:layout_editor_absoluteY="485dp" />
-    " />
 
     <EditText
         android:id="@+id/bookNameEditText"
@@ -63,19 +63,25 @@
         app:layout_constraintEnd_toEndOf="@+id/selectImageView"
         app:layout_constraintTop_toBottomOf="@+id/selectImageView"
         tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="343dp" />
+        tools:layout_editor_absoluteY="343dp" /><![CDATA[
+    " />
+
+    ]]>
 
     <ImageView
         android:id="@+id/selectImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="72dp"
         android:onClick="selectImage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/selectimage"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="54dp" />
+        app:srcCompat="@drawable/selectimage" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
 </android.support.constraint.ConstraintLayout>

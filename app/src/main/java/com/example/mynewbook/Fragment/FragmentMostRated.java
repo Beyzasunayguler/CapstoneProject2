@@ -14,29 +14,30 @@ import android.widget.Toast;
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
 import com.example.mynewbook.MainActivity;
+import com.example.mynewbook.MostRatedAdapter;
 import com.example.mynewbook.R;
 
 import java.util.List;
 
 public class FragmentMostRated extends Fragment {
     AppDatabase database;
+    MostRatedAdapter mostRatedAdapter;
     private ProgressBar loadingBar;
     private RecyclerView mRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mostRatedView = inflater.inflate(R.layout.fragment_added, container, false);
-        mRecyclerView = (RecyclerView) mostRatedView.findViewById(R.id.myRecyclerView);
+        View mostRatedView = inflater.inflate(R.layout.fragment_most_rated, container, false);
+        mRecyclerView = (RecyclerView) mostRatedView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         loadingBar = (ProgressBar) mostRatedView.findViewById(R.id.loadingBar);
+        mostRatedAdapter= new MostRatedAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager((MainActivity) getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
+        mRecyclerView.setAdapter(mostRatedAdapter);
         database = Room.databaseBuilder(getContext(), AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
-        final List<Book> books = database.getBookDao().loadAllBook();
-
         return mostRatedView;
     }
 
@@ -44,9 +45,7 @@ public class FragmentMostRated extends Fragment {
     public void onResume() {
         super.onResume();
         final List<Book> books = database.getBookDao().loadAllBook();
-
-        if (!books.isEmpty()) {
-            // Toast.makeText(this, books.get(books.size() - 1).bookName, Toast.LENGTH_SHORT).show();
-        }
+        mostRatedAdapter.setBookData(books);
+        loadingBar.setVisibility(View.GONE);
     }
 }

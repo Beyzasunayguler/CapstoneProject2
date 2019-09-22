@@ -27,8 +27,8 @@ public class FragmentFavorites extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View favoritesView = inflater.inflate(R.layout.fragment_added, container, false);
-        mRecyclerView = (RecyclerView) favoritesView.findViewById(R.id.myRecyclerView);
+        View favoritesView = inflater.inflate(R.layout.fragment_favorites, container, false);
+        mRecyclerView = (RecyclerView) favoritesView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         loadingBar = (ProgressBar) favoritesView.findViewById(R.id.loadingBar);
         favoriteAdapter = new FavoriteAdapter();
@@ -49,10 +49,9 @@ public class FragmentFavorites extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final List<Book> books = database.getBookDao().loadAllBook();
+        final List<Book> books = database.getBookDao().loadFavoritedBooks();
 
-        if (!books.isEmpty()) {
-            mRecyclerView.setAdapter(favoriteAdapter);
-        }
+        favoriteAdapter.setBookData(books);
+
     }
 }

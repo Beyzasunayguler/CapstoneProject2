@@ -4,9 +4,11 @@ import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,8 +27,10 @@ import android.widget.ImageView;
 
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,11 +48,14 @@ public class ButtonActivity extends AppCompatActivity {
     int id;
     Bitmap selectedImage;
     AppDatabase database;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_button);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         selectImageView = findViewById(R.id.selectImageView);
         bookNameText = findViewById(R.id.bookNameEditText);
         novelistText = findViewById(R.id.novelistEditText);
@@ -66,7 +74,7 @@ public class ButtonActivity extends AppCompatActivity {
                 .build();
 
         database.getBookDao().insertBook(
-            new Book(book, comment, novelist,bookImage,id)
+                new Book(book, comment, novelist, bookImage, id, false,0)
         );
         finish();
     }
@@ -92,26 +100,24 @@ public class ButtonActivity extends AppCompatActivity {
 
         //kontrolleri yapacağımız bir if durumu oluşturuyoruz. requestcode verdiğimiz değerde ise , sonuçta bır verimiz varsa ve data boş değilse şeklinde.
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            //seçilen dataya göre görsel oluşturmak
-            Uri imageData = data.getData();
-            //try and catch'e bitmapten dolayı kendi aldı
-            try {
-                if (Build.VERSION.SDK_INT >= 28) {
-                    ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), imageData);
-                    selectedImage = ImageDecoder.decodeBitmap(source);
-                    selectImageView.setImageBitmap(selectedImage);
 
-                } else {
-                    selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageData);
-                    selectImageView.setImageBitmap(selectedImage);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Uri selectedImageURI = data.getData();
+            bookImage = getRealPathFromURI(selectedImageURI);
+            Picasso.get().load(new File(bookImage)).into(selectImageView);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
+        }
     }
     //kullanıcıdan görseli izin aldık,bunu her seferinde izin almamak için yeni bir kod oluşturuyoruz
 

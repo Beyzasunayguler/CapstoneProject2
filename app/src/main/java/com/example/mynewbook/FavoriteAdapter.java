@@ -16,7 +16,7 @@ import java.util.List;
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.BookHolder> {
     private List<Book> bookData = new ArrayList<>();
 
-    public void setBookData(List<Book> bookData) {
+    public void setBookData(List<Book> bookData) { 
         this.bookData.clear();
         this.bookData.addAll(bookData);
         notifyDataSetChanged();

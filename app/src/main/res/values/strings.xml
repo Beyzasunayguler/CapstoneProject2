@@ -9,5 +9,6 @@
     <string name="save">Save</string>
     <string name="share">Share</string>
     <string name="save_my_vote">save my vote</string>
+    <string name="my_new_book_for_toolbar">My New Book</string>
 
 </resources>

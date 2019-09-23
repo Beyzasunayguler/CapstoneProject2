@@ -10,9 +10,20 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <Button
             android:id="@+id/saveVoteButton"
@@ -20,8 +31,9 @@
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="89dp"
-            android:background="#FF4081"
+            android:background="#FF5722"
             android:text="@string/save_my_vote"
+            android:textColor="@color/colorIcon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bookNameText"
@@ -55,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/selectImageView"
+            android:textColor="@color/colorPrimaryText"
             android:layout_marginStart="147dp"
             android:layout_marginTop="116dp"
             android:layout_marginEnd="16dp"
@@ -69,6 +82,7 @@
             android:id="@+id/novelistText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryText"
             android:layout_below="@id/bookNameText"
             android:layout_marginTop="25dp"
             android:ems="10"
@@ -81,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/novelistText"
+            android:textColor="@color/colorPrimaryText"
             android:layout_marginTop="27dp"
             android:ems="10"
             android:hint="@string/comment"

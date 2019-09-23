@@ -1,18 +1,13 @@
 package com.example.mynewbook;
 
-import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
-import android.media.Image;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,15 +17,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -44,10 +36,16 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Intent intent = getIntent();
         setContentView(R.layout.activity_detail);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar_detail);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        Intent intent = getIntent();
         database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
@@ -68,6 +66,7 @@ public class DetailActivity extends AppCompatActivity {
                 book.setBookRated(newState);
                 database.getBookDao().update(book);
                 Toast.makeText(DetailActivity.this,"Thank you for voting",Toast.LENGTH_LONG).show();
+                //int=0 ekle numberofrating save e her tıklandığında sayıda çağır birtane ekle çağır
             }
         });
 
@@ -81,6 +80,10 @@ public class DetailActivity extends AppCompatActivity {
                 boolean newState = !book.isBookFavorited;
                 book.setBookFavorited(newState);
                 database.getBookDao().update(book);
+                    Toast.makeText(DetailActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(DetailActivity.this, "Added!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -100,7 +103,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
     }
-
     public final Intent createShareIntent() {
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                 .getIntent();
@@ -114,5 +116,4 @@ public class DetailActivity extends AppCompatActivity {
         menuItem.setIntent(createShareIntent());
         return true;
     }
-
 }

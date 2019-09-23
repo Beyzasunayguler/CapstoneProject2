@@ -10,8 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Fragment.FragmentAdded" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".ButtonActivity" />
+        <activity android:name=".DetailActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ButtonActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

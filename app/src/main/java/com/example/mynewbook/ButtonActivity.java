@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -54,8 +55,14 @@ public class ButtonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_button);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar_button);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         selectImageView = findViewById(R.id.selectImageView);
         bookNameText = findViewById(R.id.bookNameEditText);
         novelistText = findViewById(R.id.novelistEditText);
@@ -74,7 +81,7 @@ public class ButtonActivity extends AppCompatActivity {
                 .build();
 
         database.getBookDao().insertBook(
-                new Book(book, comment, novelist, bookImage, id, false,0)
+                new Book(book, comment, novelist, bookImage, id, false, 0)
         );
         finish();
     }

@@ -20,9 +20,19 @@ import android.widget.Toast;
 
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -32,12 +42,16 @@ public class DetailActivity extends AppCompatActivity {
     private TextView bookNameText;
     private Toolbar toolbar;
     private ImageView selectImageView;
-
+    private DatabaseReference mDatabase;
+    private List<Long> votes = new ArrayList<>();
+    private RatingBar mRatingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         toolbar = (Toolbar) findViewById(R.id.tool_bar_detail);
+        final int id = getIntent().getExtras().getInt(IntentConstants.BOOK_ID_KEY);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -53,20 +67,50 @@ public class DetailActivity extends AppCompatActivity {
         bookCommentText = (TextView) findViewById(R.id.commentText);
         bookNameText = (TextView) findViewById(R.id.bookNameText);
         selectImageView = (ImageView) findViewById(R.id.selectImageView);
-        final RatingBar mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
         Button mSaveVoteButton = (Button) findViewById(R.id.saveVoteButton);
+        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference()
+                .child("books").child(String.valueOf(id));
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                // ...
+                Iterable<DataSnapshot> snapshotIterator = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
+
+                int i = 0;
+
+                while (iterator.hasNext()) {
+                    DataSnapshot next = (DataSnapshot) iterator.next();
+
+                    Long match = (Long) next.child(String.valueOf(i)).getValue();
+                    votes.add(match);
+                    i++;
+                }
+                calculateAverage(votes);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+        mPostReference.addListenerForSingleValueEvent(postListener);
+
         mSaveVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //String rating = "Rating is :" + mRatingBar.getRating();
                // Toast.makeText(DetailActivity.this, rating, Toast.LENGTH_LONG).show();
-                int id = getIntent().getExtras().getInt(IntentConstants.BOOK_ID_KEY);
                 Book book = database.getBookDao().loadBookWithId(id);
-                float newState = book.bookRating ;
+                float newState = mRatingBar.getRating();
                 book.setBookRated(newState);
                 database.getBookDao().update(book);
-                Toast.makeText(DetailActivity.this,"Thank you for voting",Toast.LENGTH_LONG).show();
+                Toast.makeText(DetailActivity.this,"Thank you for voting " + newState,Toast.LENGTH_LONG).show();
                 //int=0 ekle numberofrating save e her tıklandığında sayıda çağır birtane ekle çağır
+                votes.add((long) newState);
+                mDatabase.child("books").child(String.valueOf(id)).push().setValue(votes);
             }
         });
 
@@ -103,6 +147,17 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void calculateAverage(List<Long> votes) {
+        if (votes.isEmpty()) return;
+        Long average = 0l;
+        for(Long value: votes) {
+            average += value;
+        }
+        average = average/votes.size();
+        mRatingBar.setRating(average);
+    }
+
     public final Intent createShareIntent() {
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                 .getIntent();

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 
 public class AppBasicTest {
-   /* @Rule
+   @Rule
     public ActivityTestRule<MainActivity> mainActivityActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class){
         @Override
         protected Intent getActivityIntent() {
@@ -20,5 +20,5 @@ public class AppBasicTest {
         }
     };
 
-    */
+    
 }

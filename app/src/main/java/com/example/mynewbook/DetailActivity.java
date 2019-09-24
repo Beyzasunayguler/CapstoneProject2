@@ -1,13 +1,17 @@
 package com.example.mynewbook;
 
 import androidx.room.Room;
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.core.app.ShareCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +49,8 @@ public class DetailActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private List<Long> votes = new ArrayList<>();
     private RatingBar mRatingBar;
+    int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,12 +108,12 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //String rating = "Rating is :" + mRatingBar.getRating();
-               // Toast.makeText(DetailActivity.this, rating, Toast.LENGTH_LONG).show();
+                // Toast.makeText(DetailActivity.this, rating, Toast.LENGTH_LONG).show();
                 Book book = database.getBookDao().loadBookWithId(id);
                 float newState = mRatingBar.getRating();
                 book.setBookRated(newState);
                 database.getBookDao().update(book);
-                Toast.makeText(DetailActivity.this,"Thank you for voting " + newState,Toast.LENGTH_LONG).show();
+                Toast.makeText(DetailActivity.this, "Thank you for voting " + newState, Toast.LENGTH_LONG).show();
                 //int=0 ekle numberofrating save e her tıklandığında sayıda çağır birtane ekle çağır
                 votes.add((long) newState);
                 mDatabase.child("books").child(String.valueOf(id)).push().setValue(votes);
@@ -124,9 +130,19 @@ public class DetailActivity extends AppCompatActivity {
                 boolean newState = !book.isBookFavorited;
                 book.setBookFavorited(newState);
                 database.getBookDao().update(book);
-                    Toast.makeText(DetailActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+                i++;
+                switch (i) {
+                    case 1:
+                        Toast.makeText(DetailActivity.this, "Added!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(DetailActivity.this, "Deleted!!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Toast.makeText(DetailActivity.this, "Added!!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
 
-                    Toast.makeText(DetailActivity.this, "Added!", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -151,10 +167,10 @@ public class DetailActivity extends AppCompatActivity {
     private void calculateAverage(List<Long> votes) {
         if (votes.isEmpty()) return;
         Long average = 0l;
-        for(Long value: votes) {
+        for (Long value : votes) {
             average += value;
         }
-        average = average/votes.size();
+        average = average / votes.size();
         mRatingBar.setRating(average);
     }
 

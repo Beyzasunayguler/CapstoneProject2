@@ -10,5 +10,7 @@
     <string name="share">Share</string>
     <string name="save_my_vote">save my vote</string>
     <string name="my_new_book_for_toolbar">My New Book</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

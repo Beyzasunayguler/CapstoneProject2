@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "825638336105",
+    "firebase_url": "https://mynewbook-38e41.firebaseio.com",
+    "project_id": "mynewbook-38e41",
+    "storage_bucket": "mynewbook-38e41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825638336105:android:006f608e7a70b5f71e94f8",
+        "android_client_info": {
+          "package_name": "com.example.mynewbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825638336105-a8lfbtjr4u0jc723r89m5ku977brp0uc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjCPmcaUJ0oV3jIEVN67MxVlLbbp8JDQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825638336105-a8lfbtjr4u0jc723r89m5ku977brp0uc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

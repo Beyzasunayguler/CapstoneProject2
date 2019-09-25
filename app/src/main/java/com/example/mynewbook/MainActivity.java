@@ -1,6 +1,9 @@
 package com.example.mynewbook;
 
+import androidx.annotation.RequiresApi;
 import androidx.room.Room;
+
+import android.app.ActivityOptions;
 import android.content.Intent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -10,6 +13,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.widget.Toolbar;
@@ -50,10 +55,11 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ButtonActivity.class);
-                startActivity(intent);
+               startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
 
             }
         });
@@ -94,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
     }
 
 

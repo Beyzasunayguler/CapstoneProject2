@@ -10,8 +10,10 @@
 
     <ImageView
         android:id="@+id/widget_view"
+        android:contentDescription="@string/desc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/bookexample"/>
+        app:srcCompat="@drawable/bookexample"
+      />
 </LinearLayout>

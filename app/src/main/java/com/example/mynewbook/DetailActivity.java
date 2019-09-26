@@ -3,6 +3,7 @@ package com.example.mynewbook;
 import androidx.room.Room;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,10 +34,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -65,6 +64,7 @@ public class DetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+
         Intent intent = getIntent();
         database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
@@ -75,46 +75,16 @@ public class DetailActivity extends AppCompatActivity {
         selectImageView = (ImageView) findViewById(R.id.selectImageView);
         mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
         Button mSaveVoteButton = (Button) findViewById(R.id.saveVoteButton);
-        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference()
-                .child("books").child(String.valueOf(id));
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                // ...
-                Iterable<DataSnapshot> snapshotIterator = dataSnapshot.getChildren();
-                Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
-
-                int i = 0;
-
-                while (iterator.hasNext()) {
-                    DataSnapshot next = (DataSnapshot) iterator.next();
-
-                    Long match = (Long) next.child(String.valueOf(i)).getValue();
-                    votes.add(match);
-                    i++;
-                }
-                calculateAverage(votes);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-        mPostReference.addListenerForSingleValueEvent(postListener);
+        new AsyncTask().execute("my string parameter");
 
         mSaveVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //String rating = "Rating is :" + mRatingBar.getRating();
-                // Toast.makeText(DetailActivity.this, rating, Toast.LENGTH_LONG).show();
                 Book book = database.getBookDao().loadBookWithId(id);
                 float newState = mRatingBar.getRating();
                 book.setBookRated(newState);
                 database.getBookDao().update(book);
                 Toast.makeText(DetailActivity.this, "Thank you for voting " + newState, Toast.LENGTH_LONG).show();
-                //int=0 ekle numberofrating save e her tıklandığında sayıda çağır birtane ekle çağır
                 votes.add((long) newState);
                 mDatabase.child("books").child(String.valueOf(id)).push().setValue(votes);
             }
@@ -187,4 +157,43 @@ public class DetailActivity extends AppCompatActivity {
         menuItem.setIntent(createShareIntent());
         return true;
     }
+
+    private class AsyncTask extends android.os.AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            final int id = getIntent().getExtras().getInt(IntentConstants.BOOK_ID_KEY);
+            DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference()
+                    .child("books").child(String.valueOf(id));
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // Get Post object and use the values to update the UI
+                    // ...
+                    Iterable<DataSnapshot> snapshotIterator = dataSnapshot.getChildren();
+                    Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
+
+                    int i = 0;
+
+                    while (iterator.hasNext()) {
+                        DataSnapshot next = (DataSnapshot) iterator.next();
+
+                        Long match = (Long) next.child(String.valueOf(i)).getValue();
+                        votes.add(match);
+                        i++;
+                    }
+                    calculateAverage(votes);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                    Toast.makeText(DetailActivity.this,"Something went wrong, check the logs",Toast.LENGTH_SHORT).show();
+                }
+            };
+            mPostReference.addListenerForSingleValueEvent(postListener);
+            return null;
+        }
+    }
+
 }

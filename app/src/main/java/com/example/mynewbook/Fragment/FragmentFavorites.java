@@ -1,5 +1,6 @@
 package com.example.mynewbook.Fragment;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.room.Room;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.example.mynewbook.Database.AppDatabase;
 import com.example.mynewbook.Database.Book;
+import com.example.mynewbook.Database.MainViewModel;
 import com.example.mynewbook.FavoriteAdapter;
 import com.example.mynewbook.R;
 
@@ -39,7 +41,9 @@ public class FragmentFavorites extends Fragment {
                 .allowMainThreadQueries()
                 .build();
         final List<Book> books = database.getBookDao().loadAllBook();
-        favoriteAdapter.setBookData(books);
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        List<Book> bookList = viewModel.getFavoriteBooks();
+        favoriteAdapter.setBookData(bookList);
         loadingBar.setVisibility(View.GONE);
 
         return favoritesView;

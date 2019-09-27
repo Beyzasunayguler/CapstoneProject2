@@ -86,7 +86,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/selectt" />
+        app:srcCompat="@drawable/selectt"
+        android:contentDescription="@string/selectImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.mynewbook.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.room.Room;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import com.example.mynewbook.R;
 
 import java.util.List;
 
-public class FragmentFavorites extends Fragment {
+public class FragmentFavorites extends Fragment  {
     AppDatabase database;
     FavoriteAdapter favoriteAdapter;
     private ProgressBar loadingBar;
@@ -40,7 +41,13 @@ public class FragmentFavorites extends Fragment {
         database = Room.databaseBuilder(getContext(), AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
-        final List<Book> books = database.getBookDao().loadAllBook();
+        database.getBookDao().loadAllBook().observe(this, new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                favoriteAdapter.setBookData(books);
+            }
+        });
+       // final List<Book> books = database.getBookDao().loadAllBook();
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         List<Book> bookList = viewModel.getFavoriteBooks();
         favoriteAdapter.setBookData(bookList);
@@ -53,9 +60,15 @@ public class FragmentFavorites extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final List<Book> books = database.getBookDao().loadFavoritedBooks();
+       // final List<Book> books = database.getBookDao().loadFavoritedBooks();
+        database.getBookDao().loadAllBook().observe(this, new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                favoriteAdapter.setBookData(books);
+            }
+        });
 
-        favoriteAdapter.setBookData(books);
+        //favoriteAdapter.setBookData(books);
 
     }
 }

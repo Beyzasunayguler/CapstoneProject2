@@ -1,5 +1,6 @@
 package com.example.mynewbook.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -43,8 +44,15 @@ public class FragmentMostRated extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final List<Book> books = database.getBookDao().loadAllBook();
-        mostRatedAdapter.setBookData(books);
-        loadingBar.setVisibility(View.GONE);
+        //final List<Book> books = database.getBookDao().loadAllBook();
+        database.getBookDao().loadAllBook().observe(this, new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                mostRatedAdapter.setBookData(books);
+                loadingBar.setVisibility(View.GONE);
+            }
+        });
+        //mostRatedAdapter.setBookData(books);
+
     }
 }

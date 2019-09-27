@@ -32,7 +32,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="89dp"
-            android:background="#FF5722"
+            android:background="@color/colorAccent"
             android:text="@string/save_my_vote"
             android:textColor="@color/colorIcon"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -4,7 +4,7 @@ android {
     signingConfigs {
         config {
             storePassword 'beyza1996'
-            storeFile file('$rootDir/keystore.jks')
+            storeFile file("$rootDir/keystore.jks")
             keyAlias = 'key0'
             keyPassword 'beyza1996'
         }

@@ -1,5 +1,6 @@
 package com.example.mynewbook.Database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import java.util.List;
 @Dao
 public interface BookDao {
     @Query("SELECT * FROM book_table")
-    List<Book> loadAllBook();
+    LiveData<List<Book>> loadAllBook();
 
     @Query("SELECT * FROM book_table WHERE id=:id")
     Book loadBookWithId(int id);

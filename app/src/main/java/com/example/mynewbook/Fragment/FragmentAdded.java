@@ -1,6 +1,7 @@
 package com.example.mynewbook.Fragment;
 
 
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -38,21 +39,34 @@ public class FragmentAdded extends Fragment {
         database = Room.databaseBuilder(getContext(), AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
                 .build();
-        final List<Book> books = database.getBookDao().loadAllBook();
-        bookAdapter.setBookData(books);
-        loadingBar.setVisibility(View.GONE);
+        //final List<Book> books = database.getBookDao().loadAllBook();
+        database.getBookDao().loadAllBook().observe(this, new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                bookAdapter.setBookData(books);
+                loadingBar.setVisibility(View.GONE);
+            }
+        });
+
+        //bookAdapter.setBookData(books);
+        //loadingBar.setVisibility(View.GONE);
         return addedView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        final List<Book> books = database.getBookDao().loadAllBook();
+        database.getBookDao().loadAllBook().observe(this, new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                if (!books.isEmpty()) {
+                    bookAdapter.setBookData(books);
+                }
+            }
+        });
 
-        if (!books.isEmpty()) {
-            bookAdapter.setBookData(books);
-        }
-    }
+
+}
 
 
 }
